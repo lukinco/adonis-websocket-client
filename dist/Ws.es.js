@@ -2241,8 +2241,8 @@ var Connection = function (_Emitter) {
      *
      */
     value: function getWsUrl() {
-      var wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
-      return wsProtocol + '://' + window.location.host;
+      var wsProtocol = typeof window !== 'undefined' && window.location && window.location.protocol === 'https:' ? 'wss' : 'ws';
+      return wsProtocol + '://' + (window && window.location && window.location.host);
     }
 
     /**

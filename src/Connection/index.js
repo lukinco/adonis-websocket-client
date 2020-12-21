@@ -138,8 +138,8 @@ export default class Connection extends Emitter {
    *
    */
   getWsUrl () {
-    const wsProtocol = (typeof window !== 'undefined' && window.location.protocol === 'https:') ? 'wss' : 'ws'
-    return `${wsProtocol}://${window.location.host}`
+    const wsProtocol = (typeof window !== 'undefined' && window.location && window.location.protocol === 'https:') ? 'wss' : 'ws'
+    return `${wsProtocol}://${window && window.location && window.location.host}`
   }
 
   /**
