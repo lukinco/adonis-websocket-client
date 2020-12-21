@@ -2112,14 +2112,6 @@ var JsonEncoder = {
 };
 
 /**
- * Returns the ws protocol based upon HTTP or HTTPS
- *
- * @returns {String}
- *
- */
-var wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
-
-/**
  * Connection class is used to make a TCP/Socket connection
  * with the server. It relies on Native Websocket browser
  * support.
@@ -2138,7 +2130,7 @@ var Connection = function (_Emitter) {
 
     var _this = possibleConstructorReturn(this, (Connection.__proto__ || Object.getPrototypeOf(Connection)).call(this));
 
-    url = url || wsProtocol + '://' + window.location.host;
+    url = url || _this.getWsUrl();
 
     /**
      * Connection options
@@ -2239,8 +2231,19 @@ var Connection = function (_Emitter) {
 
 
   createClass(Connection, [{
-    key: '_cleanup',
+    key: 'getWsUrl',
 
+
+    /**
+     * Returns the ws protocol based upon HTTP or HTTPS
+     *
+     * @returns {String}
+     *
+     */
+    value: function getWsUrl() {
+      var wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
+      return wsProtocol + '://' + window.location.host;
+    }
 
     /**
      * Clean references
@@ -2251,6 +2254,9 @@ var Connection = function (_Emitter) {
      *
      * @private
      */
+
+  }, {
+    key: '_cleanup',
     value: function _cleanup() {
       clearInterval(this._pingTimer);
       this.ws = null;
